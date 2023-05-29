@@ -29,6 +29,7 @@ export const friendT = pgTable(
       .references(() => userT.id)
       .notNull(),
     isRequestAccepted: boolean("is_request_accepted").default(false).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (friendT) => ({
     pk: primaryKey(friendT.to, friendT.from),
@@ -46,14 +47,15 @@ export const chatT = pgTable("Chat", {
     .notNull(),
   type: varchar("type", { length: 6, enum: ["text", "img", "vid"] }).notNull(),
   content: varchar("content", { length: 255 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 })
 
 export const chatRoomT = pgTable("ChatRoom", {
   id: uuid("id").defaultRandom().primaryKey(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   lastChatId: uuid("last_chat_id").references(() => chatT.id),
   isGroup: boolean("is_group").default(false).notNull(),
   name: varchar("name", { length: 255 }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 })
 
 export const participantT = pgTable(

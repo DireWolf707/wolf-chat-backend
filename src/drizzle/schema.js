@@ -45,8 +45,9 @@ export const chatT = pgTable("Chat", {
   chatRoomId: uuid("chat_room_id")
     .references(() => chatRoomT.id)
     .notNull(),
-  type: varchar("type", { length: 6, enum: ["text", "img", "vid"] }).notNull(),
-  content: varchar("content", { length: 255 }).notNull(),
+  mediaType: varchar("media_type", { length: 6, enum: ["img", "vid"] }),
+  mediaURL: varchar("media_url", { length: 256 }),
+  content: text("content").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 })
 
